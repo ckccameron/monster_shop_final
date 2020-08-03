@@ -30,8 +30,127 @@ Merchants add bulk discount rates for all of their inventory. These apply automa
 - Advanced ActiveRecord
 - Software Testing
 
+```
+User Story 1, Bulk discount index
 
+As a merchant employee
+When I visit the merchant dashboard ('/merchant')
+I see a link to view all bulk discounts
+When I click that link
+I am taken to '/merchant/discounts'
+Where I see the name, min_item_quantity, percent off for each discount
+The name of the discount is a link to its show page ('/merchant/discounts/:discount_id')
 
+User Story 2, Bulk discount show page
+
+As a merchant employee
+When I visit a discount's show page ('/merchant/discounts/:discount_id')
+I see the discount's:
+- name
+- min item quantity
+- percent off
+
+User Story 3, Bulk discount creation
+
+As a merchant employee
+When I visit the discount index page ('/merchant/discounts/')
+I see a link to create a new discount, "New Bulk Discount"
+When I click this link
+Then I am taken to '/merchant/discounts/new' where I see a form for a new bulk discount
+When I fill out the form with a new discount's:
+- name
+- min item quantity
+- percent off
+When I click submit
+I see a flash message saying that a new bulk discount is created
+And I am returned to the discount index page where I see the new discount listed.
+
+User Story 4, Cannot create bulk discount with incomplete information
+
+As a merchant employee
+When I visit the new discount page ('/merchant/discounts/new')
+And I fill out the form on that page without a discount's full information and click submit
+I see a flash message saying information is incomplete
+And I am still on the new discount page with prepopulated information
+
+User Story 5, Bulk discount update
+
+As a merchant employee
+When I visit a discount's show page ('/merchant/discounts/:discount_id')
+I see a link to "Update Discount"
+When I click that link
+I am taken to '/merchant/discounts/:discount_id/edit' where I see a form to edit the discount's data similar to the create form, which is prepopulated
+When I edit the necessary entries and click submit
+I see a flash message saying the discount is updated
+And I am returned to the discount's show page where I see its updated information.
+
+User Story 6, Cannot update Bulk discount with incomplete information
+
+As a merchant employee
+When I visit a discount's edit page ('/merchant/discounts/:discount_id/edit')
+And I edit the form with incomplete information and click submit
+When I edit the necessary entries and click submit
+I see a flash message saying information is incomplete
+And I am still on the edit discount page with prepopulated information
+
+User Story 7, Bulk discount delete
+
+As a merchant employee
+When I visit a discount's show page ('/merchant/discounts/:discount_id')
+I see a button to "Delete Discount"
+When I click that button
+I see a flash message saying the discount is deleted
+And am redirected to the discount index page where I no longer see this discount
+
+User Story 8, All discounts available are displayed on merchant show page
+
+As any user or visitor
+When I visit a merchant's show page
+I can see all discounts available to me offered by that merchant at the top of the page
+
+User Story 9, All discounts available are displayed on merchant items index page
+
+As any user or visitor
+When I visit a merchant's items index page
+I can see all discounts available to me offered by that merchant at the top of the page
+
+User Story 10, Bulk discount applies to items in cart
+
+As any non-admin user or visitor
+When I add items from a particular merchant to my cart which satisfy discount qualifications of that merchant
+And I browse to my cart
+I see strikethrough text on the value of the item or subtotal with the old value struck through and the discounted value next to it
+This discount is only applied to items from that merchant
+
+User Story 11, Bulk discount is taken away if qualifications stop being met
+
+As any non-admin user or visitor
+When I add items from a particular merchant to my cart which satisfy discount qualifications of that merchant
+And I browse to my cart and see the discount applied
+And I take an action to stop satisfying those qualifications (eg. by reducing the quantity of an item)
+Then I can see the discount is no longer applied
+
+User Story 12, Bulk discount only applies to items originally specified
+
+As any non-admin user or visitor
+And there is a "5% off 5 items of the same type or more" discount available
+That discount does not apply if I have 5 items all of different types
+But if I raise the quantity of one item to 5
+The discount is applied only to that one item, not to the others
+
+User Story 13, The greatest discount applies
+
+As any non-admin user or visitor
+When I add items from a particular merchant to my cart which satisfy discount qualifications of two or more discounts from that merchant
+In the Cart I should only see the greatest discount applied
+
+User Story 14, Bulk discount applies to items in order on its show page
+
+As any non-admin user or visitor
+When I add items from a particular merchant to my cart which satisfy discount qualifications of that merchant
+And I check out my cart and create an order
+I see that the discounted value of the items persists through to the order to its show page
+```
 ---
 
 # Additional Extensions
