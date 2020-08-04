@@ -53,12 +53,11 @@ RSpec.describe "bulk discount creation page" do
 
       fill_in :name, with: "15% off 30 or more items"
       fill_in :min_item_quantity, with: 30
+      fill_in :percent_off, with: ""
       click_on "Create Bulk Discount"
 
       expect(current_path).to eq("/merchant/discounts/new")
-      expect(page).to have_content("aaa")
-      expect(page).to have_content("15% off 30 or more items")
-      expect(page).to have_content(30)
+      expect(page).to have_content("Percent off is not a number")
     end
   end
 end
