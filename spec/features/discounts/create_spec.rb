@@ -27,7 +27,7 @@ RSpec.describe "bulk discount creation page" do
       visit "/merchant/discounts"
 
       click_link "New Bulk Discount"
-      expect(current_path).to eq("/merchants/discounts/new")
+      expect(current_path).to eq("/merchant/discounts/new")
 
       fill_in :name, with: "15% off 30 or more items"
       fill_in :min_item_quantity, with: 30
@@ -37,7 +37,7 @@ RSpec.describe "bulk discount creation page" do
       new_discount = Discount.last
 
       expect(page).to have_content("New Bulk Discount Created")
-      expect(current_path).to eq("/merchants/discounts")
+      expect(current_path).to eq("/merchant/discounts")
 
       expect(page).to have_link(new_discount.name)
       expect(page).to have_content(new_discount.min_item_quantity)
