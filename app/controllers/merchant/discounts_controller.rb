@@ -19,7 +19,7 @@ class Merchant::DiscountsController < Merchant::BaseController
       redirect_to "/merchant/discounts"
     else
       flash[:error] = @discount.errors.full_messages.to_sentence
-      render :new
+      redirect_to "/merchant/discounts/new"
     end
   end
 
