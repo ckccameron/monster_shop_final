@@ -30,8 +30,8 @@ RSpec.describe "bulk discount update" do
       click_link "Update Bulk Discount"
       expect(current_path).to eq("/merchant/discounts/#{@discount.id}/edit")
       expect(find_field("Name").value).to eq(@discount.name)
-      expect(find_field("Min item quantity").value).to eq(@discount.min_item_quantity)
-      expect(find_field("Percent off").value).to eq(@discount.percent_off)
+      expect(find_field("Min item quantity").value).to eq(@discount.min_item_quantity.to_s)
+      expect(find_field("Percent off").value).to eq(@discount.percent_off.to_s)
 
       fill_in :name, with: "10% off 25 or more items"
       fill_in :min_item_quantity, with: 25
