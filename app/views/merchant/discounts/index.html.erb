@@ -1,0 +1,8 @@
+<h1>My Discounts</h1>
+<% @merchant.discounts.each do |discount| %>
+  <section id='discount-<%= discount.id %>'>
+    <h2><%= link_to discount.name, "/merchant/discounts/#{discount.id}" %></h2>
+    <p><%= discount.min_item_quantity %></p>
+    <p><%= discount.percent_off %></p>
+  </section>
+<% end %>
