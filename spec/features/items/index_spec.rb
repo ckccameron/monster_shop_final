@@ -83,9 +83,9 @@ RSpec.describe 'Item Index Page' do
 
     it "displays all bulk discounts offered by a merchant" do
       visit items_path
+      expect(page).to have_content(@discount_1.merchant.name)
 
-      within "#discount-#{@discount_1.id}" do
-        expect(page).to have_content(@discount_1.merchant.name)
+      within "#discounts-#{@discount_1.id}" do
         expect(page).to have_content(@discount_1.name)
         expect(page).to have_content(@discount_1.min_item_quantity)
         expect(page).to have_content(@discount_1.percent_off)
