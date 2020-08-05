@@ -1,5 +1,14 @@
 <h1><%= @merchant.name %></h1>
 
+<section class='bulk-discounts'>
+  <h3>Bulk Discounts</h3>
+  <% @merchant.discounts.each do |discount| %>
+  <p><%= discount.name %></p>
+  <p><%= discount.min_item_quantity %></p>
+  <p><%= discount.percent_off %></p>
+  <% end %>
+</section>
+
 <section class='address'>
   <p><%= @merchant.address %></p>
   <p><%= @merchant.city %> <%= @merchant.state %> <%= @merchant.zip %></p>
