@@ -43,9 +43,8 @@ RSpec.describe Cart do
       expect(@cart.grand_total).to eq(120)
 
       @cart.add_item(@ogre.id.to_s)
-      @cart.add_item(@giant.id.to_s)
 
-      expect(@cart.grand_total.round(2)).to eq(190.00)
+      expect(@cart.grand_total.round(2)).to eq(140.00)
     end
 
     it '.discounted_grand_total' do
@@ -54,7 +53,7 @@ RSpec.describe Cart do
       @cart.add_item(@ogre.id.to_s)
       @cart.add_item(@ogre.id.to_s)
 
-      expect(@cart.discounted_grand_total.round(2)).to eq(180.00)
+      expect(@cart.discounted_grand_total.round(2)).to eq(190.00)
     end
 
     it '.count_of()' do
