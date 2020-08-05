@@ -23,7 +23,7 @@ RSpec.describe 'Cart Show Page' do
 
         visit '/cart'
 
-        expect(page).to have_content("Total: #{number_to_currency((@ogre.price * 1) + (@hippo.price * 2))}")
+        expect(page).to have_content("Total (Discounts Applied): #{number_to_currency((@ogre.price * 1) + (@hippo.price * 2))}")
 
         within "#item-#{@ogre.id}" do
           expect(page).to have_link(@ogre.name)
@@ -184,7 +184,8 @@ RSpec.describe 'Cart Show Page' do
 
         cart = Cart.new({@ogre.id.to_s => 3})
 
-        expect(page).to have_content("Total: #{number_to_currency(cart.discounted_grand_total)}")
+        expect(page).to have_content("Total (Discounts Applied): #{number_to_currency(cart.discounted_grand_total)}")
+        save_and_open_page
        end
     end
   end
