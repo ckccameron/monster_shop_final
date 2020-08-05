@@ -1,3 +1,20 @@
+<section class="bulk-discounts">
+  <% @merchants.each do |merchant| %>
+    <% if merchant.bulk_discounts? %>
+      <h4><%= merchant.name %></h4>
+      <p>Discounts Available: </p>
+      <% merchant.discounts.each do |discount| %>
+        <section id="discounts-<%= discount.id%>">
+        <h4>Bulk Discount: <%= discount.name %></h4>
+        <p>Minimum # Of Items: <%= discount.min_item_quantity %></p>
+        <p>Percent Off: <%= discount.percent_off %>%</p>
+      <% end %>
+    <% else %>
+      <p>No merchants offer discounts at this time.</p>
+    <% end %>
+  <% end %>
+</section>
+
 <section class='statistics'>
   <h3>Most Popular Items:</h3>
   <% @items.by_popularity(5, "DESC").each do |item| %>
@@ -11,7 +28,7 @@
 
 <% @items.each do |item| %>
   <section id='item-<%= item.id%>'>
-    <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
+    <h4><%= link_to item.name, "/items/#{item.id}" %></h4>
     <p><%= item.description %></p>
     <%= link_to(image_tag(item.image), item_path(item), id: 'image') %>
     <p>Price: <%= number_to_currency(item.price) %></p>
