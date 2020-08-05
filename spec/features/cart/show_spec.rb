@@ -9,7 +9,7 @@ RSpec.describe 'Cart Show Page' do
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
       @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
       @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-      @discount = @megan.discounts.create!(name: "10% off 3 or more items", min_item_quantity: 3, percent_off: 5)
+      @discount = @megan.discounts.create!(name: "10% off 3 or more items", min_item_quantity: 3, percent_off: 10)
     end
 
     describe 'I can see my cart' do
@@ -170,10 +170,10 @@ RSpec.describe 'Cart Show Page' do
       end
 
       it "cart subtotal changes when applicable discount is applied" do
-         visit item_path(@ogre)
-         click_button "Add to Cart"
+        visit item_path(@ogre)
+        click_button "Add to Cart"
 
-         visit "/cart"
+        visit "/cart"
 
         expect(page).to have_content("Subtotal: #{number_to_currency(@ogre.price * 1)}")
 
@@ -181,8 +181,10 @@ RSpec.describe 'Cart Show Page' do
           click_button('More of This!')
           click_button('More of This!')
         end
-        
-        # expect(page).to have_content("Total: #{number_to_currency((@ogre.price * 3) - ())}")
+
+        cart = Cart.new({@ogre.id.to_s => 3})
+
+        expect(page).to have_content("Total: #{number_to_currency(cart.discounted_grand_total)}")
        end
     end
   end
