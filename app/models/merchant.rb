@@ -35,6 +35,10 @@ class Merchant < ApplicationRecord
   end
 
   def bulk_discounts?
-    true if discounts.exists?
+    if discounts.exists?
+      true
+    else
+      false
+    end
   end
 end

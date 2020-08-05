@@ -6,28 +6,28 @@ RSpec.describe Cart do
       @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
       @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 2 )
-      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @giant = @megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+      @hippo = @brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 2 )
       @cart = Cart.new({
         @ogre.id.to_s => 1,
-        @giant.id.to_s => 2
+        @giant.id.to_s => 2,
         })
+      @discount = @megan.discounts.create!(name: "10% off 5 or more items", min_item_quantity: 5, percent_off: 10)
     end
 
     it '.contents' do
       expect(@cart.contents).to eq({
         @ogre.id.to_s => 1,
-        @giant.id.to_s => 2
+        @giant.id.to_s => 2,
         })
     end
 
     it '.add_item()' do
-      @cart.add_item(@hippo.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
 
       expect(@cart.contents).to eq({
-        @ogre.id.to_s => 1,
+        @ogre.id.to_s => 2,
         @giant.id.to_s => 2,
-        @hippo.id.to_s => 1
         })
     end
 
@@ -41,6 +41,20 @@ RSpec.describe Cart do
 
     it '.grand_total' do
       expect(@cart.grand_total).to eq(120)
+
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@giant.id.to_s)
+
+      expect(@cart.grand_total.round(2)).to eq(190.00)
+    end
+
+    it '.discounted_grand_total' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.discounted_grand_total.round(2)).to eq(180.00)
     end
 
     it '.count_of()' do
@@ -53,8 +67,12 @@ RSpec.describe Cart do
       expect(@cart.subtotal_of(@giant.id)).to eq(100)
     end
 
+
     it '.limit_reached?()' do
       expect(@cart.limit_reached?(@ogre.id)).to eq(false)
+      expect(@cart.limit_reached?(@giant.id)).to eq(false)
+      @cart.add_item(@giant.id.to_s)
+
       expect(@cart.limit_reached?(@giant.id)).to eq(true)
     end
 
@@ -62,6 +80,42 @@ RSpec.describe Cart do
       @cart.less_item(@giant.id.to_s)
 
       expect(@cart.count_of(@giant.id)).to eq(1)
+    end
+
+    it '.bulk_discount_max()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.bulk_discount_max(@ogre.id)).to eq(10)
+    end
+
+    it '.discount_total_from_subtotal()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.discount_total_from_subtotal(@ogre.id).round(2)).to eq(10.00)
+    end
+
+    it '.discounted_subtotal_of()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.discounted_subtotal_of(@ogre.id).round(2)).to eq(90.00)
+    end
+
+    it '.find_applicable_discount' do
+      cart = Cart.new({@ogre.id.to_s => 5})
+      store_discount_1 = @megan.discounts.create(name: "5% off 3 or more items", min_item_quantity: 3, percent_off: 5)
+      store_discount_2 = @megan.discounts.create(name: "10% off 5 or more items", min_item_quantity: 5, percent_off: 10)
+      store_discount_3 = @megan.discounts.create(name: "15% off 10 or more items", min_item_quantity: 10, percent_off: 15)
+      cart.contents[@ogre.id.to_s] = 5
+      expect(cart.find_applicable_discount(@ogre.id)).to eq(10)
     end
   end
 end
