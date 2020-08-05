@@ -60,12 +60,6 @@ RSpec.describe Cart do
       expect(@cart.subtotal_of(@giant.id)).to eq(100)
     end
 
-    it '.discounted_subtotal_of()' do
-      @cart.add_item(@ogre.id.to_s)
-      @cart.add_item(@ogre.id.to_s)
-
-      expect(@cart.discounted_subtotal_of(@ogre.id).round(2)).to eq(54.00)
-    end
 
     it '.limit_reached?()' do
       expect(@cart.limit_reached?(@ogre.id)).to eq(false)
@@ -79,8 +73,31 @@ RSpec.describe Cart do
       expect(@cart.count_of(@giant.id)).to eq(1)
     end
 
-    it '.items_for_discount()' do
+    it '.bulk_discount_max()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
 
+      expect(@cart.bulk_discount_max(@ogre.id)).to eq(10)
+    end
+
+    it '.discount_total_from_subtotal()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.discount_total_from_subtotal(@ogre.id).round(2)).to eq(10.00)
+    end
+
+    it '.discounted_subtotal_of()' do
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+      @cart.add_item(@ogre.id.to_s)
+
+      expect(@cart.discounted_subtotal_of(@ogre.id).round(2)).to eq(90.00)
     end
   end
 end
