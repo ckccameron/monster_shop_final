@@ -26,8 +26,8 @@ RSpec.describe 'Merchant Show Page' do
       @discount_1 = @megan.discounts.create!(name: "10% off 20 or more items", min_item_quantity: 20, percent_off: 10)
       @discount_2 = @megan.discounts.create!(name: "15% off 30 or more items", min_item_quantity: 30, percent_off: 15)
       @discount_3 = @megan.discounts.create!(name: "25% off 40 or more items", min_item_quantity: 40, percent_off: 25)
-      @discount_4 = @brian.discounts.create!(name: "10% off 20 or more items", min_item_quantity: 20, percent_off: 10)
-      @discount_5 = @sal.discounts.create!(name: "15% off 30 or more items", min_item_quantity: 30, percent_off: 15)
+      @discount_4 = @brian.discounts.create!(name: "10% off 25 or more items", min_item_quantity: 25, percent_off: 10)
+      @discount_5 = @sal.discounts.create!(name: "15% off 35 or more items", min_item_quantity: 35, percent_off: 15)
     end
 
     it 'I see merchant name and address' do
@@ -91,11 +91,7 @@ RSpec.describe 'Merchant Show Page' do
         expect(page).to have_content(@discount_3.min_item_quantity)
         expect(page).to have_content(@discount_3.percent_off)
         expect(page).to_not have_content(@discount_4.name)
-        expect(page).to_not have_content(@discount_4.min_item_quantity)
-        expect(page).to_not have_content(@discount_4.percent_off)
         expect(page).to_not have_content(@discount_5.name)
-        expect(page).to_not have_content(@discount_5.min_item_quantity)
-        expect(page).to_not have_content(@discount_5.percent_off)
       end
     end
   end
