@@ -66,6 +66,7 @@ RSpec.describe Merchant do
 
     it ".bulk_discounts?" do
       expect(@megan.bulk_discounts?).to eq(true)
+      expect(@brian.bulk_discounts?).to eq(false)
     end
   end
 end
