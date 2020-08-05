@@ -185,7 +185,6 @@ RSpec.describe 'Cart Show Page' do
         cart = Cart.new({@ogre.id.to_s => 3})
 
         expect(page).to have_content("Total (Discounts Applied): #{number_to_currency(cart.discounted_grand_total)}")
-        save_and_open_page
        end
     end
   end
