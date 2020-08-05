@@ -10,25 +10,25 @@ User.destroy_all
 Merchant.destroy_all
 Item.destroy_all
 
+#merchants
+sports = Merchant.create(name: "Santiago's Sporting Goods", address: "45 Nature Bliss St", city: "San Diego", state: "CA", zip: 92102)
+music = Merchant.create(name: "Marley's Music", address: "1 Mother Nature Cir", city: "San Diego", state: "CA", zip: 92109)
+
 #users
 tony = User.create(name: "Tony Tiger", address: "345 Frosty St", city: "Denver",
                   state: "CO", zip: 80205, email: "grrreat_hooray@gmail.com",
                   password: "123test", password_confirmation: "123test", role: 0)
 
-chester = User.create(name: "Chester Cheetah", address: "455 Hot Fiyah Ave", city: "Phoenix",
+chester = sports.users.create(name: "Chester Cheetah", address: "455 Hot Fiyah Ave", city: "Phoenix",
                   state: "AZ", zip: 85253, email: "hunnidmilesrunnin@gmail.com",
                   password: "123test", password_confirmation: "123test", role: 1)
-cuckoo = User.create(name: "Sonny Cuckoo", address: "822 Cocoa River Ln", city: "Los Angeles",
+cuckoo = music.users.create(name: "Sonny Cuckoo", address: "822 Cocoa River Ln", city: "Los Angeles",
                   state: "CA", zip: 90008, email: "cuckoo4cocoa@gmail.com",
                   password: "123test", password_confirmation: "123test", role: 1)
 
 admin = User.create(name: "Mufasa Lyons", address: "388 Pride Rock Cir", city: "San Diego",
                   state: "CA", zip: 92102, email: "circleoflife2@gmail.com",
                   password: "123test", password_confirmation: "123test", role: 2)
-
-#merchants
-sports = Merchant.create(name: "Santiago's Sporting Goods", address: "45 Nature Bliss St", city: "San Diego", state: "CA", zip: 92102)
-music = Merchant.create(name: "Marley's Music", address: "1 Mother Nature Cir", city: "San Diego", state: "CA", zip: 92109)
 
 #items
 bball = sports.items.create(name: "Basketball", description: "Ballislife!", price: 30.00,
