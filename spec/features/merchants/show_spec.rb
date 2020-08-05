@@ -20,8 +20,8 @@ RSpec.describe 'Merchant Show Page' do
       @order_2 = @user_2.orders.create!
 
       @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2)
-      @order_2.order_items.create!(item: @giant, price: @hippo.price, quantity: 2)
-      @order_2.order_items.create!(item: @ogre, price: @hippo.price, quantity: 2)
+      @order_2.order_items.create!(item: @giant, price: @giant.price, quantity: 2)
+      @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2)
 
       @discount_1 = @megan.discounts.create!(name: "10% off 20 or more items", min_item_quantity: 20, percent_off: 10)
       @discount_2 = @megan.discounts.create!(name: "15% off 30 or more items", min_item_quantity: 30, percent_off: 15)

@@ -6,6 +6,7 @@ class ItemsController < ApplicationController
     else
       @items = Item.active_items
     end
+    @merchants = Merchant.all
   end
 
   def show
