@@ -1,16 +1,18 @@
 <section class="bulk-discounts">
-  <% @merchants.each do |merchant| %>
-    <% if merchant.bulk_discounts? %>
-      <h4><%= merchant.name %></h4>
-      <p>Discounts Available: </p>
-      <% merchant.discounts.each do |discount| %>
-        <section id="discounts-<%= discount.id%>">
-        <h4>Bulk Discount: <%= discount.name %></h4>
-        <p>Minimum # Of Items: <%= discount.min_item_quantity %></p>
-        <p>Percent Off: <%= discount.percent_off %>%</p>
+  <% if @merchants.present? %>
+    <% @merchants.each do |merchant| %>
+      <% if merchant.bulk_discounts? %>
+        <h4><%= merchant.name %></h4>
+        <p>Discounts Available: </p>
+        <% merchant.discounts.each do |discount| %>
+          <section id="discounts-<%= discount.id%>">
+          <h4>Bulk Discount: <%= discount.name %></h4>
+          <p>Minimum # Of Items: <%= discount.min_item_quantity %></p>
+          <p>Percent Off: <%= discount.percent_off %>%</p>
+        <% end %>
+      <% else %>
+        <p>No merchants offer discounts at this time.</p>
       <% end %>
-    <% else %>
-      <p>No merchants offer discounts at this time.</p>
     <% end %>
   <% end %>
 </section>
